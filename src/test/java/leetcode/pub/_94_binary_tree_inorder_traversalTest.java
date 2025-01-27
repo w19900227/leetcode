@@ -9,6 +9,8 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -37,14 +39,21 @@ public class _94_binary_tree_inorder_traversalTest {
     @ParameterizedTest
     @MethodSource("source")
     public void test(TreeNode root, List<Integer> expected) {
+        LeetCode leetCode = new Solution();
         List<Integer> actual = leetCode.inorderTraversal(root);
         Assert.assertTrue(DeepCompare.areListEqual(expected, actual));
     }
 
     public static class Solution1 implements LeetCode {
+        public List<Integer> result = new ArrayList<>();
+
         @Override
         public List<Integer> inorderTraversal(TreeNode root) {
-            return null;
+            if (root == null) return result;
+            if (root.left != null) inorderTraversal(root.left);
+            result.add(root.val);
+            if (root.right != null) inorderTraversal(root.right);
+            return result;
         }
     }
 
@@ -69,7 +78,16 @@ public class _94_binary_tree_inorder_traversalTest {
                                                 null)
                                 )
                         ),
-                        new int[]{4, 2, 6, 5, 7, 1, 3, 9, 8}
+                        Arrays.asList(4, 2, 6, 5, 7, 1, 3, 9, 8)
+                ),
+                arguments(TreeNode.newTreeNode(1,
+                                null,
+                                TreeNode.newTreeNode(2,
+                                        null,
+                                        TreeNode.newTreeNode(3)
+                                )
+                        ),
+                        Arrays.asList(1, 2, 3)
                 ),
                 arguments(TreeNode.newTreeNode(1,
                                 null,
@@ -78,13 +96,13 @@ public class _94_binary_tree_inorder_traversalTest {
                                         null
                                 )
                         ),
-                        new int[]{1, 3, 2}
+                        Arrays.asList(1, 3, 2)
                 ),
-//                arguments(null,
-//                        new int[]{}
-//                ),
+                arguments(null,
+                        Arrays.asList()
+                ),
                 arguments(TreeNode.newTreeNode(1),
-                        1
+                        Arrays.asList(1)
                 )
         );
     }

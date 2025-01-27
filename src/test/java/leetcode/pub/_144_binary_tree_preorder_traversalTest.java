@@ -16,19 +16,19 @@ import java.util.stream.Stream;
 
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
-public class _94_binary_tree_inorder_traversalTest {
+public class _144_binary_tree_preorder_traversalTest {
 
     private static final LeetCode leetCode = new Solution1();
 
     public static class Solution implements LeetCode {
         @Override
-        public List<Integer> inorderTraversal(TreeNode root) {
+        public List<Integer> preorderTraversal(TreeNode root) {
             return null;
         }
     }
 
     /**
-     * https://leetcode.com/problems/binary-tree-inorder-traversal
+     * https://leetcode.com/problems/binary-tree-preorder-traversal
      *
      * @see Difficulty#Easy()
      * @see Topic#Stack()
@@ -39,8 +39,8 @@ public class _94_binary_tree_inorder_traversalTest {
     @ParameterizedTest
     @MethodSource("source")
     public void test(TreeNode root, List<Integer> expected) {
-        LeetCode leetCode = new Solution();
-        List<Integer> actual = leetCode.inorderTraversal(root);
+        LeetCode leetCode = new Solution1();
+        List<Integer> actual = leetCode.preorderTraversal(root);
         Assert.assertTrue(DeepCompare.areListEqual(expected, actual));
     }
 
@@ -48,17 +48,17 @@ public class _94_binary_tree_inorder_traversalTest {
         public List<Integer> result = new ArrayList<>();
 
         @Override
-        public List<Integer> inorderTraversal(TreeNode root) {
+        public List<Integer> preorderTraversal(TreeNode root) {
             if (root == null) return result;
-            if (root.left != null) inorderTraversal(root.left);
             result.add(root.val);
-            if (root.right != null) inorderTraversal(root.right);
+            if (root.left != null) preorderTraversal(root.left);
+            if (root.right != null) preorderTraversal(root.right);
             return result;
         }
     }
 
     public interface LeetCode {
-        List<Integer> inorderTraversal(TreeNode root);
+        List<Integer> preorderTraversal(TreeNode root);
     }
 
     private static Stream<Arguments> source() {
@@ -78,7 +78,7 @@ public class _94_binary_tree_inorder_traversalTest {
                                                 null)
                                 )
                         ),
-                        Arrays.asList(4, 2, 6, 5, 7, 1, 3, 9, 8)
+                        Arrays.asList(1, 2, 4, 5, 6, 7, 3, 8, 9)
                 ),
                 arguments(TreeNode.newTreeNode(1,
                                 null,
@@ -87,7 +87,7 @@ public class _94_binary_tree_inorder_traversalTest {
                                         null
                                 )
                         ),
-                        Arrays.asList(1, 3, 2)
+                        Arrays.asList(1, 2, 3)
                 ),
                 arguments(TreeNode.newTreeNode(1,
                                 null,

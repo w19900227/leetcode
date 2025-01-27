@@ -15,7 +15,7 @@ import static org.junit.jupiter.params.provider.Arguments.arguments;
 
 public class _108_convert_sorted_array_to_binary_search_treeTest {
 
-    private static final LeetCode leetCode = new Solution1();
+    private static final LeetCode leetCode = new Solution();
 
     public static class Solution implements LeetCode {
         @Override
@@ -44,7 +44,18 @@ public class _108_convert_sorted_array_to_binary_search_treeTest {
     public static class Solution1 implements LeetCode {
         @Override
         public TreeNode sortedArrayToBST(int[] nums) {
-            return null;
+            if (nums.length == 0) return null;
+            return sortedArray(0, nums.length - 1, nums);
+        }
+
+        private TreeNode sortedArray(int start, int end, int[] nums) {
+            if (start > end) return null;
+            int mid = (start + end) / 2;
+            TreeNode root = new TreeNode();
+            root.val = nums[mid];
+            root.left = sortedArray(start, mid - 1, nums);
+            root.right = sortedArray(mid + 1, end, nums);
+            return root;
         }
     }
 
@@ -57,16 +68,18 @@ public class _108_convert_sorted_array_to_binary_search_treeTest {
                 arguments(new int[]{-10, -3, 0, 5, 9},
                         TreeNode.newTreeNode(
                                 0,
-                                TreeNode.newTreeNode(-3,
-                                        TreeNode.newTreeNode(-10)
-                                        , null),
-                                TreeNode.newTreeNode(9,
-                                        TreeNode.newTreeNode(5),
-                                        null)
+                                TreeNode.newTreeNode(-10,
+                                        null,
+                                        TreeNode.newTreeNode(-3)),
+                                TreeNode.newTreeNode(5,
+                                        null,
+                                        TreeNode.newTreeNode(9)
+                                )
+
                         )
                 ),
                 arguments(new int[]{1, 3},
-                        TreeNode.newTreeNode(3, TreeNode.newTreeNode(1), null)
+                        TreeNode.newTreeNode(1, null, TreeNode.newTreeNode(3))
                 )
         );
     }

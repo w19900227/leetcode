@@ -8,6 +8,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Stream;
@@ -42,7 +43,21 @@ public class _119_pascals_triangle_iiTest {
     public static class Solution1 implements LeetCode {
         @Override
         public List<Integer> getRow(int rowIndex) {
-            return null;
+            if (rowIndex == 0) return Arrays.asList(1);
+            if (rowIndex == 1) {
+                return Arrays.asList(1, 1);
+            }
+            List<Integer> preRows = getRow(rowIndex - 1);
+            if (rowIndex > 1) {
+                List<Integer> result = new ArrayList<>();
+                result.add(1);
+                for (int i = 1; i < rowIndex; i++) {
+                    result.add(preRows.get(i - 1) + preRows.get(i));
+                }
+                result.add(1);
+                return result;
+            }
+            return preRows;
         }
     }
 
@@ -52,14 +67,17 @@ public class _119_pascals_triangle_iiTest {
 
     private static Stream<Arguments> source() {
         return Stream.of(
-                arguments(0,
-                        Arrays.asList(1)
+                arguments(3,
+                        Arrays.asList(1, 3, 3, 1)
+                ),
+                arguments(2,
+                        Arrays.asList(1, 2, 1)
                 ),
                 arguments(1,
                         Arrays.asList(1, 1)
                 ),
-                arguments(3,
-                        Arrays.asList(1, 3, 3, 1)
+                arguments(0,
+                        Arrays.asList(1)
                 )
         );
     }
